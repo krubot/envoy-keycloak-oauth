@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     volumes:
-      - ./volumes/postgres/:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
   api:
     image: python:3.8
     container_name: api
@@ -19,8 +19,6 @@ services:
       - python
       - -m
       - http.server
-    ports:
-      - 8000:8000
   keycloak:
     image: jboss/keycloak
     container_name: keycloak
@@ -48,6 +46,6 @@ services:
     ports:
       - 10000:10000
     volumes:
-      - ./config/proxy.yaml:/etc/envoy/envoy.yaml
+      - ./config/envoy.yaml:/etc/envoy/envoy.yaml
     depends_on:
       - keycloak

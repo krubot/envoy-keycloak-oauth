@@ -1,6 +1,6 @@
 {
-  "id": "envoy",
-  "realm": "envoy",
+  "id": "api",
+  "realm": "api",
   "notBefore": 0,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -270,7 +270,7 @@
           "attributes": {}
         }
       ],
-      "envoy": [
+      "api": [
         {
           "id": "ffd7bd9c-f6b2-4d2e-9afd-804964cc6ee3",
           "name": "USER",
@@ -372,7 +372,7 @@
       "id": "54aa6855-2db9-4be2-90c6-6d6b95e0f435",
       "clientId": "account",
       "name": "${client_account}",
-      "baseUrl": "/auth/realms/envoy/account",
+      "baseUrl": "/auth/realms/api/account",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
@@ -382,7 +382,7 @@
         "manage-account"
       ],
       "redirectUris": [
-        "/auth/realms/envoy/account/*"
+        "/auth/realms/api/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -417,13 +417,13 @@
       "id": "ee471023-6b04-4533-be31-424ffdc50d27",
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
-      "baseUrl": "/auth/admin/envoy/console/index.html",
+      "baseUrl": "/auth/admin/api/console/index.html",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/auth/admin/envoy/console/*"
+        "/auth/admin/api/console/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -587,18 +587,18 @@
     },
     {
       "id": "8c6bf031-fb4e-4290-b3a2-5ba5b206438f",
-      "clientId": "envoy",
-      "rootUrl": "http://front-envoy:80",
-      "adminUrl": "http://front-envoy:80",
+      "clientId": "api",
+      "rootUrl": "http://api:8000",
+      "adminUrl": "http://api:8000",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://front-envoy:80/*"
+        "http://api:8000/*"
       ],
       "webOrigins": [
-        "http://front-envoy:80"
+        "http://api:8000"
       ],
       "notBefore": 0,
       "bearerOnly": false,
