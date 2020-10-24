@@ -35,11 +35,11 @@ static_resources:
               "@type": type.googleapis.com/envoy.extensions.filters.http.oauth2.v3alpha.OAuth2
               config:
                 token_endpoint:
-                  cluster: auth
-                  uri: authorization-server.com/token
-                  timeout: 3s
-                authorization_endpoint: https://www.oauth.com/playground/auth-dialog.html
-                redirect_uri: "https://www.oauth.com/playground/oidc.html"
+                  cluster: keycloak
+                  uri: http://127.0.0.1:8080/auth/realms/api/protocol/openid-connect/certs
+                  timeout: 5s
+                authorization_endpoint: http://127.0.0.1:8080/auth/realms/api/protocol/openid-connect/auth
+                redirect_uri: "http://%REQ(:authority)%/callback"
                 redirect_path_matcher:
                   path:
                     exact: /callback
@@ -48,7 +48,7 @@ static_resources:
                     exact: /signout
                 forward_bearer_token: true
                 credentials:
-                  client_id: "EZVJswAe8zMaBcNbRQGGj6mR"
+                  client_id: "account"
                   token_secret:
                     name: token
                     sds_config:
@@ -59,17 +59,20 @@ static_resources:
                       path: "/etc/envoy/hmac.yaml"
           - name: envoy.router
   clusters:
-  - name: auth
-    connect_timeout: 5s
+  - name: keycloak
+    connect_timeout: 0.25s
     type: LOGICAL_DNS
+    dns_lookup_family: V4_ONLY
     lb_policy: ROUND_ROBIN
     load_assignment:
-      cluster_name: auth
+      cluster_name: keycloak
       endpoints:
       - lb_endpoints:
         - endpoint:
-            address: { socket_address: { address: www.oauth.com, port_value: 443 }}
-    tls_context: { sni: www.oauth.com }
+            address:
+              socket_address:
+                address: keycloak
+                port_value: 8080
   - name: api
     connect_timeout: 0.25s
     type: LOGICAL_DNS

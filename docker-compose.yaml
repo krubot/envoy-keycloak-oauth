@@ -1,16 +1,44 @@
 version: '3'
 
 services:
+  db:
+    image: postgres:11
+    container_name: db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
   api:
-    image: alpine
+    image: python:3.8
     container_name: api
     restart: unless-stopped
     command:
-      - /bin/sh
-      - -c
-      - "nc -l -p 8000"
+      - python
+      - -m
+      - http.server
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    restart: unless-stopped
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /keycloak-realm.json
+    volumes:
+      - ./config/realm-export.json:/keycloak-realm.json
     ports:
-      - 8000:8000
+      - "8080:8080"
+    depends_on:
+      - db
   proxy:
     image: envoyproxy/envoy:v1.16.0
     container_name: proxy
