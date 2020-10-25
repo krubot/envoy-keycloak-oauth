@@ -33,19 +33,22 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_IMPORT: /keycloak-realm.json
+    command:
+      - --debug
     volumes:
-      - ./config/keycloak-realm.json:/keycloak-realm.json
+      - ./config/realm-export.json:/keycloak-realm.json
     ports:
       - "8080:8080"
     depends_on:
       - db
   proxy:
-    image: envoyproxy/envoy:v1.14.1
+    image: envoyproxy/envoy:v1.16.0
     container_name: proxy
     restart: unless-stopped
+    command: "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster 'service-a' --service-node 'service-a' --log-level 'debug'"
     ports:
       - 10000:10000
     volumes:
       - ./config/envoy.yaml:/etc/envoy/envoy.yaml
-    depends_on:
-      - keycloak
+      - ./secret/token-secret.yaml:/etc/envoy/token-secret.yaml
+      - ./secret/hmac.yaml:/etc/envoy/hmac.yaml
