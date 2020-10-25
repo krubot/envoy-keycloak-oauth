@@ -43,7 +43,7 @@ services:
     image: envoyproxy/envoy:v1.16.0
     container_name: proxy
     restart: unless-stopped
-    command: "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster 'service-a' --service-node 'service-a'"
+    command: "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster 'service-a' --service-node 'service-a' --log-level 'debug'"
     ports:
       - 10000:10000
     volumes:
