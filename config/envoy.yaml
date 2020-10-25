@@ -36,7 +36,7 @@ static_resources:
               config:
                 token_endpoint:
                   cluster: keycloak
-                  uri: http://127.0.0.1:8080/auth/realms/api/protocol/openid-connect/certs
+                  uri: http://127.0.0.1:8080/auth/realms/api/protocol/openid-connect/token
                   timeout: 5s
                 authorization_endpoint: http://127.0.0.1:8080/auth/realms/api/protocol/openid-connect/auth
                 redirect_uri: "http://%REQ(:authority)%/callback"

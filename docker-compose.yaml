@@ -33,6 +33,8 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_IMPORT: /keycloak-realm.json
+    command:
+      - --debug
     volumes:
       - ./config/realm-export.json:/keycloak-realm.json
     ports:
